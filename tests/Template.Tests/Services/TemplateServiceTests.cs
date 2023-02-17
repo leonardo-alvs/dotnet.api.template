@@ -75,6 +75,7 @@ public class TemplateServiceTests
             InsertionDate = DateTime.Now
         };
         _mockMapper.Setup(s => s.Map<TemplateEntity>(It.IsAny<TemplateDto>())).Returns(templateEntity);
+        _mockUnitOfWork.Setup(s => s.TemplateRepository.Create(templateEntity));
 
         //Act
         var response = await _templateService.CreateTemplate(templateDto);
