@@ -74,10 +74,11 @@ public class TemplateServiceTests
             Description = "descricao",
             InsertionDate = DateTime.Now
         };
+        _mockMapper.Setup(s => s.Map<TemplateEntity>(It.IsAny<TemplateDto>())).Returns(templateEntity);
 
         //Act
         var response = await _templateService.CreateTemplate(templateDto);
-        _mockMapper.Setup(s => s.Map<TemplateEntity>(It.IsAny<TemplateDto>())).Returns(templateEntity);
+        
 
         //Assert
         Assert.True(true);
