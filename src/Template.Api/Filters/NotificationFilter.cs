@@ -9,6 +9,7 @@ using Template.Application.Shared.Notifications;
 
 namespace Template.Api.Filters;
 
+[ExcludeFromCodeCoverage]
 public class NotificationFilter : IAsyncResultFilter
 {
     private readonly NotificationContext _notificationContext;
