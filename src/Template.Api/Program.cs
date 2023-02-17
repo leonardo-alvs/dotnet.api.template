@@ -66,10 +66,8 @@ app.AddHealthCheckMap();
 app.UseCors();
 //app.UseAuthentication();
 //app.UseAuthorization();
-//middleware que injeta informações da request no log
 app.UseMiddleware<SerilogHttpRequestMiddleware>();
 app.UseSerilogRequestLogging();
-//middleware que trata as exceções e escreve no log
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
 
