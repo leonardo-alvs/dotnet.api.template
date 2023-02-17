@@ -57,4 +57,31 @@ public class TemplateServiceTests
         Assert.Null(result);
     }
 
+    [Fact]
+    public async void TemplateService_CreateTemplate_Should_Return_Dto()
+    {
+        //Arrange
+        var templateDto = new TemplateDto
+        {
+            Active = true,
+            Description = "descricao",
+            InsertionDate = DateTime.Now
+        };
+
+        var templateEntity = new TemplateEntity
+        {
+            Active = true,
+            Description = "descricao",
+            InsertionDate = DateTime.Now
+        };
+
+        //Act
+        var response = await _templateService.CreateTemplate(templateDto);
+        _mockMapper.Setup(s => s.Map<TemplateEntity>(It.IsAny<TemplateDto>())).Returns(templateEntity);
+
+        //Assert
+        Assert.True(false);
+
+    }
+
 }
