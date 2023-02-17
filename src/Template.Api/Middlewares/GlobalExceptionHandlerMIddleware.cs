@@ -3,52 +3,52 @@ using System.Net;
 using System.Reflection;
 using System.Text.Json;
 
-namespace Template.Api.Middlewares
+namespace Template.Api.Middlewares;
+
+[ExcludeFromCodeCoverage]
+public class GlobalExceptionHandlerMiddleware : IMiddleware
 {
-    public class GlobalExceptionHandlerMiddleware : IMiddleware
+
+    public GlobalExceptionHandlerMiddleware()
     {
 
-        public GlobalExceptionHandlerMiddleware()
+    }
+
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    {
+        try
         {
-
+            await next(context);
         }
-
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        catch (InvalidOperationException ex)
         {
-            try
-            {
-                await next(context);
-            }
-            catch (InvalidOperationException ex)
-            {
-                await HandleBadRequestAsync(context, ex);
-            }
-            catch (AggregateException ex)
-            {
-                await HandleExceptionAsync(context, ex.InnerExceptions.First());
-            }
-            catch (Exception ex)
-            {
-                await HandleExceptionAsync(context, ex);
-            }
+            await HandleBadRequestAsync(context, ex);
         }
-
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        catch (AggregateException ex)
         {
-            Log.Error(exception, $"Error on {Assembly.GetExecutingAssembly().GetName().Name}");
-
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            return context.Response.WriteAsync(JsonSerializer.Serialize(new { Message = "Houve um erro ao processar sua requisição" }));
+            await HandleExceptionAsync(context, ex.InnerExceptions.First());
         }
-
-        private Task HandleBadRequestAsync(HttpContext context, InvalidOperationException ex)
+        catch (Exception ex)
         {
-            Log.Warning($"Warning: {ex.Message}");
-
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return context.Response.WriteAsync(JsonSerializer.Serialize(new { ex.Message }));
+            await HandleExceptionAsync(context, ex);
         }
+    }
+
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        Log.Error(exception, $"Error on {Assembly.GetExecutingAssembly().GetName().Name}");
+
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        return context.Response.WriteAsync(JsonSerializer.Serialize(new { Message = "Houve um erro ao processar sua requisição" }));
+    }
+
+    private Task HandleBadRequestAsync(HttpContext context, InvalidOperationException ex)
+    {
+        Log.Warning($"Warning: {ex.Message}");
+
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+        return context.Response.WriteAsync(JsonSerializer.Serialize(new { ex.Message }));
     }
 }

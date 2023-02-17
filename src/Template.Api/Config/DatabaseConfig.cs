@@ -4,6 +4,7 @@ using Template.Infra.Data.SqlServer;
 
 namespace Template.Api.Config;
 
+[ExcludeFromCodeCoverage]
 public static class DatabaseConfig
 {
     public static void AddDatabaseConfiguration(this IServiceCollection services,

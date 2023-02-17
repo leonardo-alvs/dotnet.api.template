@@ -6,6 +6,7 @@ using Template.Infra.Data.SqlServer;
 
 namespace Template.Api.Config;
 
+[ExcludeFromCodeCoverage]
 public static class HealthCheckConfig
 {
     public static void AddHealthCheckConfig(this IServiceCollection services)

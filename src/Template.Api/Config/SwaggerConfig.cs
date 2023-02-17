@@ -8,6 +8,7 @@ using System.Reflection;
 
 namespace Template.Api.Config;
 
+[ExcludeFromCodeCoverage]
 public static class SwaggerConfig
 {
     public static void AddSwaggerConfig(this IServiceCollection services)

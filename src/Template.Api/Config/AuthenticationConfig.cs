@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Template.Api.Config;
 
+[ExcludeFromCodeCoverage]
 public static class AuthenticationConfig
 {
     public static void AddAuthenticationConfig(this IServiceCollection services)

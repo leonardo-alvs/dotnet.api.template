@@ -8,6 +8,7 @@ using Template.Application.Shared.Notifications;
 
 namespace Template.Api.Config;
 
+[ExcludeFromCodeCoverage]
 public static class DependencyInjectionConfig
 {
     public static void AddDependencyInjection(this IServiceCollection services)

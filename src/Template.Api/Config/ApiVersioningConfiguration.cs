@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Template.Api.Config;
 
+[ExcludeFromCodeCoverage]
 public static class ApiVersioningConfiguration
 {
     public static void AddVersioningConfig(this IServiceCollection services)
